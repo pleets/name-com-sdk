@@ -1,4 +1,4 @@
-<p align="center"><img src="https://blog.pleets.org/img/articles/name-com-logo.png" height="150"></p>
+<p align="center"><img src="https://blog.pleets.org/img/articles/name-com-logo.png" height="50"></p>
 
 <p align="center">
 <a href="https://travis-ci.com/pleets/name-com-api"><img src="https://travis-ci.com/pleets/name-com-api.svg?branch=main" alt="Build Status"></a>
