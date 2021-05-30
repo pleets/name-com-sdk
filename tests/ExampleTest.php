@@ -12,7 +12,7 @@ class ExampleTest extends TestCase
      */
     public function itCanTestSomething()
     {
-	new Calculator();
+        new Calculator();
         $this->assertTrue(true);
     }
 }
