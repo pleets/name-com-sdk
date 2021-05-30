@@ -1,0 +1,25 @@
+{
+    "name": "pleets/name-com-api",
+    "description": "SDK for Name.com API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Darío Rivera",
+            "email": "fermius.us@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pleets\\NameCom\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pleets\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
