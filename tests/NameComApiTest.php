@@ -39,7 +39,7 @@ class NameComApiTest extends TestCase
 
         $jsonResponse = [
             'domain' => [
-                'domainName' => 'test-domain-pleets.org',
+                'domainName' => 'test-domain.org',
                 'nameservers' => [
                     'ns1vwx.name.com',
                     'ns2qvz.name.com',
