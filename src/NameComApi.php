@@ -45,4 +45,12 @@ class NameComApi
 
         return new GetResponse($this->client->execute());
     }
+
+    public function listDomains(): GetResponse
+    {
+        $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains');
+        $this->setAuthentication();
+
+        return new GetResponse($this->client->execute());
+    }
 }
