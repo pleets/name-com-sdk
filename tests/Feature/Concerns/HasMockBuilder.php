@@ -1,6 +1,6 @@
 <?php
 
-namespace Pleets\Tests\Concerns;
+namespace Pleets\Tests\Feature\Concerns;
 
 use EasyHttp\MockBuilder\MockBuilder;
 

@@ -5,7 +5,9 @@ namespace Pleets\NameCom;
 use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
+use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Responses\GetResponse;
+use Pleets\NameCom\Responses\PostResponse;
 
 class NameComApi
 {
@@ -52,5 +54,13 @@ class NameComApi
         $this->setAuthentication();
 
         return new GetResponse($this->client->execute());
+    }
+
+    public function createDomain(CreateDomainRequest $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains');
+        $this->setAuthentication()->setJson($domain->toArray());
+
+        return new PostResponse($this->client->execute());
     }
 }
