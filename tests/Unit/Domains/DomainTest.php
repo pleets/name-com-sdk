@@ -64,13 +64,13 @@ class DomainTest extends TestCase
         $domain->setContactSet($contactSet);
         $domain->setPrivacyEnabled(true);
         $domain->setLocked(false);
-        $domain->setAutorenew(false);
+        $domain->setAutoRenewed(false);
 
         $this->assertSame($domainName, $domain->getDomainName());
         $this->assertSame(['ns1.example.org', 'ns2.example.org'], $domain->getNameservers());
         $this->assertSame($contactSet, $domain->getContactSet());
         $this->assertTrue($domain->isPrivacyEnabled());
         $this->assertFalse($domain->isLocked());
-        $this->assertFalse($domain->isAutorenew());
+        $this->assertFalse($domain->isAutoRenewed());
     }
 }

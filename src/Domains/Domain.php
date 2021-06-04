@@ -9,7 +9,7 @@ class Domain
     protected ?ContactSet $contactSet = null;
     protected bool $privacyEnabled = false;
     protected bool $locked = true;
-    protected bool $autorenew = true;
+    protected bool $autoRenewed = true;
 
     public function __construct(string $domainName)
     {
@@ -76,14 +76,14 @@ class Domain
         return $this;
     }
 
-    public function isAutorenew(): bool
+    public function isAutoRenewed(): bool
     {
-        return $this->autorenew;
+        return $this->autoRenewed;
     }
 
-    public function setAutorenew(bool $autorenew): self
+    public function setAutoRenewed(bool $autoRenewed): self
     {
-        $this->autorenew = $autorenew;
+        $this->autoRenewed = $autoRenewed;
 
         return $this;
     }
@@ -104,7 +104,7 @@ class Domain
 
         $data['privacyEnabled'] = $this->privacyEnabled;
         $data['locked'] = $this->locked;
-        $data['autorenewEnabled'] = $this->autorenew;
+        $data['autorenewEnabled'] = $this->autoRenewed;
 
         return $data;
     }
