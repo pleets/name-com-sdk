@@ -56,10 +56,10 @@ class NameComApi
         return new GetResponse($this->client->execute());
     }
 
-    public function createDomain(CreateDomainRequest $domain): PostResponse
+    public function createDomain(CreateDomainRequest $request): PostResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains');
-        $this->setAuthentication()->setJson($domain->toArray());
+        $this->setAuthentication()->setJson($request->toArray());
 
         return new PostResponse($this->client->execute());
     }

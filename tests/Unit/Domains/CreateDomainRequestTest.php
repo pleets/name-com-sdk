@@ -2,6 +2,7 @@
 
 namespace Pleets\Tests\Unit\Domains;
 
+use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\Tests\TestCase;
 
@@ -12,31 +13,62 @@ class CreateDomainRequestTest extends TestCase
      */
     public function itCreatesRequestsWithMinimumData()
     {
-        $domain = $this->faker->domainName;
+        $domainName = $this->faker->domainName;
 
-        $request = new CreateDomainRequest($domain);
+        $request = new CreateDomainRequest($domain = new Domain($domainName));
 
         $this->assertSame([
-            'domain' => [
-                'domainName' => $domain
-            ]
+            'domain' => $domain->toArray(),
+            'years' => 1
         ], $request->toArray());
     }
 
     /**
      * @test
      */
-    public function itCreatesRequestsWithPurchasePrice()
+    public function itCreatesRequestsWithAllData()
     {
-        $domain = $this->faker->domainName;
+        $domainName = $this->faker->domainName;
 
-        $request = new CreateDomainRequest($domain, '9.99');
+        $request = new CreateDomainRequest($domain = new Domain($domainName));
+        $request->setPurchasePrice('9.99');
+        $request->setPurchaseType('registration');
+        $request->setYears(2);
 
         $this->assertSame([
-            'domain' => [
-                'domainName' => $domain
-            ],
-            'purchasePrice' => '9.99'
+            'domain' => $domain->toArray(),
+            'purchasePrice' => '9.99',
+            'purchaseType' => 'registration',
+            'years' => 2
+        ], $request->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanChangeRequestProperties()
+    {
+        $domainName = $this->faker->domainName;
+        $price = (string) $this->faker->randomFloat(2);
+        $type = $this->faker->word;
+        $years = $this->faker->randomDigitNot(0);
+
+        $request = new CreateDomainRequest(new Domain('example.org'));
+        $request->setDomain($domain = new Domain($domainName));
+        $request->setPurchasePrice($price);
+        $request->setPurchaseType($type);
+        $request->setYears($years);
+
+        $this->assertSame($domain, $request->getDomain());
+        $this->assertSame($price, $request->getPurchasePrice());
+        $this->assertSame($type, $request->getPurchaseType());
+        $this->assertSame($years, $request->getYears());
+
+        $this->assertSame([
+            'domain' => $domain->toArray(),
+            'purchasePrice' => $price,
+            'purchaseType' => $type,
+            'years' => $years
         ], $request->toArray());
     }
 }
