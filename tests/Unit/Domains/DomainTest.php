@@ -50,6 +50,26 @@ class DomainTest extends TestCase
     /**
      * @test
      */
+    public function itGeneratesAnArrayWithContacts()
+    {
+        $domainName = $this->faker->domainName;
+
+        $domain = new Domain($domainName);
+        $contactSet = $this->createContactSet(ContactType::BILLING);
+        $domain->setContactSet($contactSet);
+
+        $this->assertSame([
+            'domainName' => $domainName,
+            'contacts' => $contactSet->toArray(),
+            'privacyEnabled' => false,
+            'locked' => true,
+            'autorenewEnabled' => true,
+        ], $domain->toArray());
+    }
+
+    /**
+     * @test
+     */
     public function itCanChangeItsData()
     {
         $domainName = $this->faker->domainName;
