@@ -12,6 +12,10 @@ This is an SDK for [Name.com REST API](https://www.name.com/api-docs/). The foll
 
 - [v4](https://www.name.com/api-docs/)
 
+<a href="https://sonarcloud.io/dashboard?id=pleets_name-com-sdk"><img src="https://sonarcloud.io/api/project_badges/measure?project=pleets_name-com-sdk&metric=security_rating" alt="Bugs"></a>
+<a href="https://sonarcloud.io/dashboard?id=pleets_name-com-sdk"><img src="https://sonarcloud.io/api/project_badges/measure?project=pleets_name-com-sdk&metric=bugs" alt="Bugs"></a>
+<a href="https://sonarcloud.io/dashboard?id=pleets_name-com-sdk"><img src="https://sonarcloud.io/api/project_badges/measure?project=pleets_name-com-sdk&metric=code_smells" alt="Bugs"></a>
+
 # Installation
 
 Use following command to install this library:
