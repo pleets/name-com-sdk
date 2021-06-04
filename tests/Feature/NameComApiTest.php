@@ -3,6 +3,7 @@
 namespace Pleets\Tests\Feature;
 
 use EasyHttp\MockBuilder\HttpMock;
+use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\NameComApi;
 use Pleets\Tests\Feature\Concerns\HasContactInfo;
@@ -151,7 +152,7 @@ class NameComApiTest extends TestCase
                 ->statusCode(200)
                 ->json($jsonResponse);
 
-        $request = new CreateDomainRequest($domain);
+        $request = new CreateDomainRequest(new Domain($domain));
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -169,13 +170,13 @@ class NameComApiTest extends TestCase
      */
     public function itCanCreateADomainWithPurchasePrice()
     {
-        $domain = $this->faker->domainName;
+        $domainName = $this->faker->domainName;
 
         $info = $this->generateContactInfo();
 
         $jsonResponse = [
             'domain' => [
-                'domainName' => $domain,
+                'domainName' => $domainName,
                 'nameservers' => [
                     'ns1vwx.name.com',
                     'ns2vwx.name.com',
@@ -206,7 +207,8 @@ class NameComApiTest extends TestCase
                 ->statusCode(200)
                 ->json($jsonResponse);
 
-        $request = new CreateDomainRequest($domain, '8.99');
+        $request = new CreateDomainRequest(new Domain($domainName));
+        $request->setPurchasePrice(14.99);
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
