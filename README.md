@@ -2,6 +2,8 @@
 
 <p align="center">
 <a href="https://travis-ci.com/pleets/name-com-sdk"><img src="https://travis-ci.com/pleets/name-com-sdk.svg?branch=main" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/pleets/name-com-sdk"><img src="https://img.shields.io/scrutinizer/g/pleets/name-com-sdk.svg" alt="Code Quality"></a>
+<a href="https://scrutinizer-ci.com/g/pleets/name-com-sdk/?branch=main"><img src="https://scrutinizer-ci.com/g/pleets/name-com-sdk/badges/coverage.png?b=main" alt="Code Coverage"></a>
 </p>
 
 # Name.com SDK
