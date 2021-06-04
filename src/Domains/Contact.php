@@ -11,7 +11,7 @@ class Contact
     protected ?string $address2 = null;
     protected ?string $city = null;
     protected ?string $state = null;
-    protected ?string $zip = null;
+    protected ?string $postalCode = null;
     protected ?string $country = null;
     protected ?string $phone = null;
     protected ?string $fax = null;
@@ -101,14 +101,14 @@ class Contact
         return $this;
     }
 
-    public function getZip(): ?string
+    public function getPostalCode(): ?string
     {
-        return $this->zip;
+        return $this->postalCode;
     }
 
-    public function setZip(?string $zip): self
+    public function setPostalCode(?string $postalCode): self
     {
-        $this->zip = $zip;
+        $this->postalCode = $postalCode;
 
         return $this;
     }
@@ -193,8 +193,8 @@ class Contact
             $data['state'] = $this->state;
         }
 
-        if ($this->zip) {
-            $data['zip'] = $this->zip;
+        if ($this->postalCode) {
+            $data['zip'] = $this->postalCode;
         }
 
         if ($this->country) {

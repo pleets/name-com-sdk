@@ -43,7 +43,7 @@ class ContactTest extends TestCase
         $contact->setAddress2($address2);
         $contact->setCity($city);
         $contact->setState($state);
-        $contact->setZip($zip);
+        $contact->setPostalCode($zip);
         $contact->setCountry($countryCode);
         $contact->setPhone($phone);
         $contact->setFax($fax);
@@ -91,7 +91,7 @@ class ContactTest extends TestCase
         $contact->setAddress2($address2);
         $contact->setCity($city);
         $contact->setState($state);
-        $contact->setZip($zip);
+        $contact->setPostalCode($zip);
         $contact->setCountry($countryCode);
         $contact->setPhone($phone);
         $contact->setFax($fax);
@@ -104,7 +104,7 @@ class ContactTest extends TestCase
         $this->assertSame($address2, $contact->getAddress2());
         $this->assertSame($city, $contact->getCity());
         $this->assertSame($state, $contact->getState());
-        $this->assertSame($zip, $contact->getZip());
+        $this->assertSame($zip, $contact->getPostalCode());
         $this->assertSame($countryCode, $contact->getCountry());
         $this->assertSame($phone, $contact->getPhone());
         $this->assertSame($fax, $contact->getFax());

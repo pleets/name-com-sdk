@@ -34,7 +34,7 @@ trait HasContactInfo
         $contact->setAddress2($this->faker->address);
         $contact->setCity($this->faker->city);
         $contact->setState($this->faker->state);
-        $contact->setZip($this->faker->postcode);
+        $contact->setPostalCode($this->faker->postcode);
         $contact->setCountry($this->faker->countryCode);
         $contact->setPhone($this->faker->phoneNumber);
         $contact->setEmail($this->faker->email);
