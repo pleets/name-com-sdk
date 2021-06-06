@@ -6,6 +6,7 @@ use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
+use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
 
@@ -60,6 +61,22 @@ class NameComApi
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains');
         $this->setAuthentication()->setJson($request->toArray());
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function enableWhoIsPrivacy(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':enableWhoisPrivacy');
+        $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function disableWhoIsPrivacy(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':disableWhoisPrivacy');
+        $this->setAuthentication();
 
         return new PostResponse($this->client->execute());
     }
