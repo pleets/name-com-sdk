@@ -9,6 +9,23 @@ use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class PurchasePrivacyTest extends TestCaseWithMockAuthentication
 {
+    private function setupServiceWithResponse(array $response): NameComApi
+    {
+        $this->builder
+            ->when()
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':purchasePrivacy/')
+            ->then()
+                ->statusCode(200)
+                ->json($response);
+
+        $service = new NameComApi($this->baseUri);
+        $service->setCredentials($this->username, $this->password);
+        $service->withHandler(new HttpMock($this->builder));
+
+        return $service;
+    }
+
     /**
      * @test
      */
@@ -17,18 +34,7 @@ class PurchasePrivacyTest extends TestCaseWithMockAuthentication
         $domainName = $this->faker->domainName;
         $jsonResponse = $this->responseWithDomain($domainName);
 
-        $this->builder
-            ->when()
-                ->methodIs('POST')
-                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':purchasePrivacy/')
-            ->then()
-                ->statusCode(200)
-                ->json($jsonResponse);
-
-        $service = new NameComApi($this->baseUri);
-        $service->setCredentials($this->username, $this->password);
-        $service->withHandler(new HttpMock($this->builder));
-
+        $service = $this->setupServiceWithResponse($jsonResponse);
         $response = $service->purchasePrivacy(new PurchaseRequest($domainName));
 
         $this->assertTrue($response->isSuccessful());
@@ -45,18 +51,7 @@ class PurchasePrivacyTest extends TestCaseWithMockAuthentication
         $domainName = $this->faker->domainName;
         $jsonResponse = $this->responseWithDomain($domainName);
 
-        $this->builder
-            ->when()
-                ->methodIs('POST')
-                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':purchasePrivacy/')
-            ->then()
-                ->statusCode(200)
-                ->json($jsonResponse);
-
-        $service = new NameComApi($this->baseUri);
-        $service->setCredentials($this->username, $this->password);
-        $service->withHandler(new HttpMock($this->builder));
-
+        $service = $this->setupServiceWithResponse($jsonResponse);
         $request = new PurchaseRequest($domainName);
         $request->setPurchasePrice('14.99');
         $request->setPurchaseYears(2);
