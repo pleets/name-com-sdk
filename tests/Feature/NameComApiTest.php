@@ -5,6 +5,7 @@ namespace Pleets\Tests\Feature;
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
+use Pleets\NameCom\Domains\Requests\RenewDomainRequest;
 use Pleets\NameCom\NameComApi;
 use Pleets\Tests\Feature\Concerns\HasContactInfo;
 use Pleets\Tests\Feature\Concerns\HasMockBuilder;
@@ -24,37 +25,22 @@ class NameComApiTest extends TestCase
         parent::setUp();
     }
 
+    private function responseWithDomain(string $domainName): array
+    {
+        return $this->responseWithDomainModel([
+            'domain' => [
+                'domainName' => $domainName
+            ]
+        ]);
+    }
+
     /**
      * @test
      */
     public function itCanGetDomains()
     {
-        $info = $this->generateContactInfo();
-
-        $jsonResponse = [
-            'domain' => [
-                'domainName' => 'test-domain.org',
-                'nameservers' => [
-                    'ns1vwx.name.com',
-                    'ns2qvz.name.com',
-                    'ns3gmv.name.com',
-                    'ns4hmp.name.com'
-                ],
-                'contacts' => [
-                    'registrant' => $info,
-                    'admin' => $info,
-                    'tech' => $info,
-                    'billing' => $info,
-                ],
-                'locked' => true,
-                'autorenewEnabled' => true,
-                'expireDate' => '2022-05-30T07:00:11Z',
-                'createDate' => '2021-05-30T07:00:11Z',
-                'renewalPrice' => 12.99
-            ],
-            'order' => 235151,
-            'totalPaid' => 8.99
-        ];
+        $domainName = $this->faker->domainName;
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -63,17 +49,17 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
         $service->withHandler(new HttpMock($this->builder));
 
-        $response = $service->getDomain('test-domain.org');
+        $response = $service->getDomain($domainName);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 
     /**
@@ -115,34 +101,8 @@ class NameComApiTest extends TestCase
      */
     public function itCanCreateADomainWithMinimumData()
     {
-        $domain = $this->faker->domainName;
-
-        $info = $this->generateContactInfo();
-
-        $jsonResponse = [
-            'domain' => [
-                'domainName' => $domain,
-                'nameservers' => [
-                    'ns1vwx.name.com',
-                    'ns2vwx.name.com',
-                    'ns3vwx.name.com',
-                    'ns4vwx.name.com',
-                ],
-                'contacts' => [
-                    'registrant' => $info,
-                    'admin' => $info,
-                    'tech' => $info,
-                    'billing' => $info,
-                ],
-                'locked' => true,
-                'autorenewEnabled' => true,
-                'expireDate' => '2022-06-02T23:39:53Z',
-                'createDate' => '2021-06-02T23:39:53Z',
-                'renewalPrice' => 14.99
-            ],
-            'order' => 235841,
-            'totalPaid' => 8.99
-        ];
+        $domainName = $this->faker->domainName;
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -152,7 +112,7 @@ class NameComApiTest extends TestCase
                 ->statusCode(200)
                 ->json($jsonResponse);
 
-        $request = new CreateDomainRequest(new Domain($domain));
+        $request = new CreateDomainRequest(new Domain($domainName));
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -163,6 +123,7 @@ class NameComApiTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 
     /**
@@ -171,33 +132,7 @@ class NameComApiTest extends TestCase
     public function itCanCreateADomainWithPurchasePrice()
     {
         $domainName = $this->faker->domainName;
-
-        $info = $this->generateContactInfo();
-
-        $jsonResponse = [
-            'domain' => [
-                'domainName' => $domainName,
-                'nameservers' => [
-                    'ns1vwx.name.com',
-                    'ns2vwx.name.com',
-                    'ns3vwx.name.com',
-                    'ns4vwx.name.com',
-                ],
-                'contacts' => [
-                    'registrant' => $info,
-                    'admin' => $info,
-                    'tech' => $info,
-                    'billing' => $info,
-                ],
-                'locked' => true,
-                'autorenewEnabled' => true,
-                'expireDate' => '2022-06-02T23:39:53Z',
-                'createDate' => '2021-06-02T23:39:53Z',
-                'renewalPrice' => 14.99
-            ],
-            'order' => 235841,
-            'totalPaid' => 8.99
-        ];
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -219,6 +154,7 @@ class NameComApiTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 
     /**
@@ -237,7 +173,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -267,7 +202,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -297,7 +231,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -327,7 +260,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -339,6 +271,34 @@ class NameComApiTest extends TestCase
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
         $this->assertFalse($jsonResponse['autorenewEnabled']);
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRenewADomain()
+    {
+        $domainName = $this->faker->domainName;
+        $jsonResponse = $this->responseWithDomain($domainName);
+
+        $this->builder
+            ->when()
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':renew/')
+            ->then()
+                ->statusCode(200)
+                ->json($jsonResponse);
+
+        $service = new NameComApi($this->baseUri);
+        $service->setCredentials($this->username, $this->password);
+        $service->withHandler(new HttpMock($this->builder));
+
+        $response = $service->renewDomain(new RenewDomainRequest($domainName));
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame(200, $response->getResponse()->getStatusCode());
+        $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 
     private function response(): array
@@ -366,5 +326,37 @@ class NameComApiTest extends TestCase
             'createDate' => '2021-05-30T07:00:11Z',
             'renewalPrice' => 12.99
         ];
+    }
+
+    private function responseWithDomainModel(array $data = []): array
+    {
+        $info = $this->generateContactInfo();
+
+        $response = [
+            'domain' => [
+                'domainName' => 'test-domain.org',
+                'nameservers' => [
+                    'ns1vwx.name.com',
+                    'ns2qvz.name.com',
+                    'ns3gmv.name.com',
+                    'ns4hmp.name.com'
+                ],
+                'contacts' => [
+                    'registrant' => $info,
+                    'admin' => $info,
+                    'tech' => $info,
+                    'billing' => $info,
+                ],
+                'locked' => true,
+                'autorenewEnabled' => true,
+                'expireDate' => '2022-05-30T07:00:11Z',
+                'createDate' => '2021-05-30T07:00:11Z',
+                'renewalPrice' => 12.99
+            ],
+            'order' => 235151,
+            'totalPaid' => 8.99
+        ];
+
+        return array_replace_recursive($response, $data);
     }
 }

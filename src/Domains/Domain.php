@@ -2,9 +2,12 @@
 
 namespace Pleets\NameCom\Domains;
 
+use Pleets\NameCom\Domains\Concerns\HasDomainName;
+
 class Domain
 {
-    protected string $domainName;
+    use HasDomainName;
+
     protected array $nameservers = [];
     protected ?ContactSet $contactSet = null;
     protected bool $privacyEnabled = false;
@@ -14,18 +17,6 @@ class Domain
     public function __construct(string $domainName)
     {
         $this->domainName = $domainName;
-    }
-
-    public function getDomainName(): string
-    {
-        return $this->domainName;
-    }
-
-    public function setDomainName(string $domainName): self
-    {
-        $this->domainName = $domainName;
-
-        return $this;
     }
 
     public function getNameservers(): array
