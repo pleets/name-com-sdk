@@ -5,7 +5,7 @@ namespace Pleets\Tests\Feature;
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
-use Pleets\NameCom\Domains\Requests\RenewDomainRequest;
+use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\NameComApi;
 use Pleets\Tests\Feature\Concerns\HasContactInfo;
 use Pleets\Tests\Feature\Concerns\HasMockBuilder;
@@ -293,7 +293,7 @@ class NameComApiTest extends TestCase
         $service->setCredentials($this->username, $this->password);
         $service->withHandler(new HttpMock($this->builder));
 
-        $response = $service->renewDomain(new RenewDomainRequest($domainName));
+        $response = $service->renewDomain(new PurchaseRequest($domainName));
 
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
@@ -325,6 +325,34 @@ class NameComApiTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanPurchaseDomainPrivacy()
+    {
+        $domainName = $this->faker->domainName;
+        $jsonResponse = $this->responseWithDomain($domainName);
+
+        $this->builder
+            ->when()
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':purchasePrivacy/')
+            ->then()
+                ->statusCode(200)
+                ->json($jsonResponse);
+
+        $service = new NameComApi($this->baseUri);
+        $service->setCredentials($this->username, $this->password);
+        $service->withHandler(new HttpMock($this->builder));
+
+        $response = $service->purchasePrivacy(new PurchaseRequest($domainName));
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame(200, $response->getResponse()->getStatusCode());
+        $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 
     private function response(): array
