@@ -80,4 +80,20 @@ class NameComApi
 
         return new PostResponse($this->client->execute());
     }
+
+    public function enableAutoRenewal(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':enableAutorenew');
+        $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function disableAutoRenewal(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':disableAutorenew');
+        $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
 }
