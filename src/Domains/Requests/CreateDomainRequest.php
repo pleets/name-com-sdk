@@ -2,14 +2,17 @@
 
 namespace Pleets\NameCom\Domains\Requests;
 
+use Pleets\NameCom\Domains\Concerns\HasPurchaseYears;
 use Pleets\NameCom\Domains\Domain;
+use Pleets\NameCom\Domains\Concerns\HasPurchasePrice;
 
 class CreateDomainRequest
 {
+    use HasPurchasePrice;
+    use HasPurchaseYears;
+
     protected Domain $domain;
-    protected ?string $purchasePrice = null;
     protected ?string $purchaseType = null;
-    protected ?int $years = 1;
 
     public function __construct(Domain $domain)
     {
@@ -28,18 +31,6 @@ class CreateDomainRequest
         return $this;
     }
 
-    public function getPurchasePrice(): ?string
-    {
-        return $this->purchasePrice;
-    }
-
-    public function setPurchasePrice(?string $purchasePrice): self
-    {
-        $this->purchasePrice = $purchasePrice;
-
-        return $this;
-    }
-
     public function getPurchaseType(): ?string
     {
         return $this->purchaseType;
@@ -48,18 +39,6 @@ class CreateDomainRequest
     public function setPurchaseType(?string $purchaseType): self
     {
         $this->purchaseType = $purchaseType;
-
-        return $this;
-    }
-
-    public function getYears(): ?int
-    {
-        return $this->years;
-    }
-
-    public function setYears(?int $years): self
-    {
-        $this->years = $years;
 
         return $this;
     }
@@ -78,8 +57,8 @@ class CreateDomainRequest
             $data['purchaseType'] = $this->purchaseType;
         }
 
-        if ($this->years) {
-            $data['years'] = $this->years;
+        if ($this->purchaseYears) {
+            $data['years'] = $this->purchaseYears;
         }
 
         return $data;

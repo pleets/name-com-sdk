@@ -1,6 +1,6 @@
 <?php
 
-namespace Pleets\Tests\Unit\Domains;
+namespace Pleets\Tests\Unit\Domains\Requests;
 
 use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
@@ -33,7 +33,7 @@ class CreateDomainRequestTest extends TestCase
         $request = new CreateDomainRequest($domain = new Domain($domainName));
         $request->setPurchasePrice('9.99');
         $request->setPurchaseType('registration');
-        $request->setYears(2);
+        $request->setPurchaseYears(2);
 
         $this->assertSame([
             'domain' => $domain->toArray(),
@@ -57,12 +57,12 @@ class CreateDomainRequestTest extends TestCase
         $request->setDomain($domain = new Domain($domainName));
         $request->setPurchasePrice($price);
         $request->setPurchaseType($type);
-        $request->setYears($years);
+        $request->setPurchaseYears($years);
 
         $this->assertSame($domain, $request->getDomain());
         $this->assertSame($price, $request->getPurchasePrice());
         $this->assertSame($type, $request->getPurchaseType());
-        $this->assertSame($years, $request->getYears());
+        $this->assertSame($years, $request->getPurchaseYears());
 
         $this->assertSame([
             'domain' => $domain->toArray(),
