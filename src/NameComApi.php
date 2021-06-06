@@ -6,7 +6,7 @@ use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
-use Pleets\NameCom\Domains\Requests\RenewDomainRequest;
+use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
@@ -98,7 +98,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function renewDomain(RenewDomainRequest $request): PostResponse
+    public function renewDomain(PurchaseRequest $request): PostResponse
     {
         $this->client->prepareRequest(
             'POST',
@@ -115,5 +115,16 @@ class NameComApi
         $this->setAuthentication();
 
         return new GetResponse($this->client->execute());
+    }
+
+    public function purchasePrivacy(PurchaseRequest $request): PostResponse
+    {
+        $this->client->prepareRequest(
+            'POST',
+            $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':purchasePrivacy'
+        );
+        $this->setAuthentication()->setJson($request->toArray());
+
+        return new PostResponse($this->client->execute());
     }
 }

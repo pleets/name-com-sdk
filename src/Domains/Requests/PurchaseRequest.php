@@ -6,7 +6,7 @@ use Pleets\NameCom\Domains\Concerns\HasDomainName;
 use Pleets\NameCom\Domains\Concerns\HasPurchasePrice;
 use Pleets\NameCom\Domains\Concerns\HasPurchaseYears;
 
-class RenewDomainRequest
+class PurchaseRequest
 {
     use HasDomainName;
     use HasPurchasePrice;

@@ -2,7 +2,7 @@
 
 namespace Pleets\Tests\Unit\Domains\Requests;
 
-use Pleets\NameCom\Domains\Requests\RenewDomainRequest;
+use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\Tests\TestCase;
 
 class RenewDomainRequestTest extends TestCase
@@ -14,7 +14,7 @@ class RenewDomainRequestTest extends TestCase
     {
         $domainName = $this->faker->domainName;
 
-        $request = new RenewDomainRequest($domainName);
+        $request = new PurchaseRequest($domainName);
 
         $this->assertSame([
             'years' => 1
@@ -28,7 +28,7 @@ class RenewDomainRequestTest extends TestCase
     {
         $domainName = $this->faker->domainName;
 
-        $request = new RenewDomainRequest($domainName);
+        $request = new PurchaseRequest($domainName);
         $request->setPurchasePrice('9.99');
         $request->setPurchaseYears(2);
 
@@ -47,7 +47,7 @@ class RenewDomainRequestTest extends TestCase
         $price = (string) $this->faker->randomFloat(2);
         $years = $this->faker->randomDigitNot(0);
 
-        $request = new RenewDomainRequest($domainName);
+        $request = new PurchaseRequest($domainName);
         $request->setPurchasePrice($price);
         $request->setPurchaseYears($years);
 
