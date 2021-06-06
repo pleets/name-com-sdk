@@ -45,7 +45,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -180,7 +179,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -210,7 +208,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -240,7 +237,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -270,7 +266,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -304,7 +299,6 @@ class NameComApiTest extends TestCase
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
-        ;
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
