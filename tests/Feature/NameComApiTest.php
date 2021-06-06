@@ -220,4 +220,91 @@ class NameComApiTest extends TestCase
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function itCanEnableWhoIsPrivacy()
+    {
+        $jsonResponse = array_replace_recursive($this->response(), [
+            'privacyEnabled' => true
+        ]);
+
+        $this->builder
+            ->when()
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':enableWhoisPrivacy/')
+            ->then()
+                ->statusCode(200)
+                ->json($jsonResponse);
+        ;
+
+        $service = new NameComApi($this->baseUri);
+        $service->setCredentials($this->username, $this->password);
+        $service->withHandler(new HttpMock($this->builder));
+
+        $response = $service->enableWhoIsPrivacy('test-domain.org');
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame(200, $response->getResponse()->getStatusCode());
+        $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertTrue($jsonResponse['privacyEnabled']);
+    }
+
+    /**
+     * @test
+     */
+    public function itCanDisableWhoIsPrivacy()
+    {
+        $jsonResponse = array_replace_recursive($this->response(), [
+            'privacyEnabled' => false
+        ]);
+
+        $this->builder
+            ->when()
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':disableWhoisPrivacy/')
+            ->then()
+                ->statusCode(200)
+                ->json($jsonResponse);
+        ;
+
+        $service = new NameComApi($this->baseUri);
+        $service->setCredentials($this->username, $this->password);
+        $service->withHandler(new HttpMock($this->builder));
+
+        $response = $service->disableWhoIsPrivacy('test-domain.org');
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame(200, $response->getResponse()->getStatusCode());
+        $this->assertSame($jsonResponse, $response->toArray());
+        $this->assertFalse($jsonResponse['privacyEnabled']);
+    }
+
+    private function response(): array
+    {
+        $info = $this->generateContactInfo();
+
+        return [
+            'domainName' => 'test-domain.org',
+            'nameservers' => [
+                'ns1vwx.name.com',
+                'ns2qvz.name.com',
+                'ns3gmv.name.com',
+                'ns4hmp.name.com'
+            ],
+            'contacts' => [
+                'registrant' => $info,
+                'admin' => $info,
+                'tech' => $info,
+                'billing' => $info,
+            ],
+            'privacyEnabled' => true,
+            'locked' => true,
+            'autorenewEnabled' => true,
+            'expireDate' => '2022-05-30T07:00:11Z',
+            'createDate' => '2021-05-30T07:00:11Z',
+            'renewalPrice' => 12.99
+        ];
+    }
 }
