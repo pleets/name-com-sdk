@@ -7,6 +7,7 @@ use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\RenewDomainRequest;
+use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
 
@@ -106,5 +107,13 @@ class NameComApi
         $this->setAuthentication()->setJson($request->toArray());
 
         return new PostResponse($this->client->execute());
+    }
+
+    public function getDomainAuthCode(string $domain): GetResponse
+    {
+        $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains/' . $domain . ':getAuthCode');
+        $this->setAuthentication();
+
+        return new GetResponse($this->client->execute());
     }
 }
