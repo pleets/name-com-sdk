@@ -25,18 +25,22 @@ class NameComApiTest extends TestCase
         parent::setUp();
     }
 
+    private function responseWithDomain(string $domainName): array
+    {
+        return $this->responseWithDomainModel([
+            'domain' => [
+                'domainName' => $domainName
+            ]
+        ]);
+    }
+
     /**
      * @test
      */
     public function itCanGetDomains()
     {
         $domainName = $this->faker->domainName;
-
-        $jsonResponse = array_replace_recursive($this->responseWithDomainModel(), [
-            'domain' => [
-                'domainName' => $domainName
-            ]
-        ]);
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -98,12 +102,7 @@ class NameComApiTest extends TestCase
     public function itCanCreateADomainWithMinimumData()
     {
         $domainName = $this->faker->domainName;
-
-        $jsonResponse = array_replace_recursive($this->responseWithDomainModel(), [
-            'domain' => [
-                'domainName' => $domainName
-            ]
-        ]);
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -133,12 +132,7 @@ class NameComApiTest extends TestCase
     public function itCanCreateADomainWithPurchasePrice()
     {
         $domainName = $this->faker->domainName;
-
-        $jsonResponse = array_replace_recursive($this->responseWithDomainModel(), [
-            'domain' => [
-                'domainName' => $domainName
-            ]
-        ]);
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -285,12 +279,7 @@ class NameComApiTest extends TestCase
     public function itCanRenewADomain()
     {
         $domainName = $this->faker->domainName;
-
-        $jsonResponse = array_replace_recursive($this->responseWithDomainModel(), [
-            'domain' => [
-                'domainName' => $domainName
-            ]
-        ]);
+        $jsonResponse = $this->responseWithDomain($domainName);
 
         $this->builder
             ->when()
@@ -339,11 +328,11 @@ class NameComApiTest extends TestCase
         ];
     }
 
-    private function responseWithDomainModel(): array
+    private function responseWithDomainModel(array $data = []): array
     {
         $info = $this->generateContactInfo();
 
-        return [
+        $response = [
             'domain' => [
                 'domainName' => 'test-domain.org',
                 'nameservers' => [
@@ -367,5 +356,7 @@ class NameComApiTest extends TestCase
             'order' => 235151,
             'totalPaid' => 8.99
         ];
+
+        return array_replace_recursive($response, $data);
     }
 }
