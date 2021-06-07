@@ -3,7 +3,6 @@
 namespace Pleets\Tests\Feature\Domains;
 
 use EasyHttp\MockBuilder\HttpMock;
-use Pleets\NameCom\Domains\NameServerSet;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\NameCom\NameComApi;
 use Pleets\Tests\TestCaseWithMockAuthentication;

@@ -3,7 +3,6 @@
 namespace Pleets\Tests\Unit\Domains\Requests;
 
 use Pleets\NameCom\Domains\NameServerSet;
-use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\Tests\TestCase;
 

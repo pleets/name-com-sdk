@@ -10,8 +10,6 @@ class SetNameServersRequest
     use HasDomainName;
     use HasNameServers;
 
-    protected string $domainName;
-
     public function __construct(string $domainName)
     {
         $this->domainName = $domainName;
