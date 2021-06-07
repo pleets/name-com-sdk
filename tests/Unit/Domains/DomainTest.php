@@ -5,11 +5,13 @@ namespace Pleets\Tests\Unit\Domains;
 use Pleets\NameCom\Domains\Constants\ContactType;
 use Pleets\NameCom\Domains\Domain;
 use Pleets\Tests\Feature\Concerns\HasContactInfo;
+use Pleets\Tests\Feature\Concerns\HasNameServers;
 use Pleets\Tests\TestCase;
 
 class DomainTest extends TestCase
 {
     use HasContactInfo;
+    use HasNameServers;
 
     /**
      * @test
@@ -34,13 +36,14 @@ class DomainTest extends TestCase
     public function itGeneratesAnArrayWithNameServers()
     {
         $domainName = $this->faker->domainName;
+        $nameServerSet = $this->generateNameServerSet();
 
         $domain = new Domain($domainName);
-        $domain->setNameservers(['ns1.example.org', 'ns2.example.org']);
+        $domain->setNameServerSet($nameServerSet);
 
         $this->assertSame([
             'domainName' => $domainName,
-            'nameservers' => ['ns1.example.org', 'ns2.example.org'],
+            'nameservers' => $nameServerSet->toArray(),
             'privacyEnabled' => false,
             'locked' => true,
             'autorenewEnabled' => true,
@@ -79,7 +82,8 @@ class DomainTest extends TestCase
 
         $domainName = $this->faker->domainName;
         $domain->setDomainName($domainName);
-        $domain->setNameservers(['ns1.example.org', 'ns2.example.org']);
+        $nameServerSet = $this->generateNameServerSet();
+        $domain->setNameServerSet($nameServerSet);
         $contactSet = $this->createContactSet(ContactType::REGISTRANT);
         $domain->setContactSet($contactSet);
         $domain->setPrivacyEnabled(true);
@@ -87,7 +91,7 @@ class DomainTest extends TestCase
         $domain->setAutoRenewed(false);
 
         $this->assertSame($domainName, $domain->getDomainName());
-        $this->assertSame(['ns1.example.org', 'ns2.example.org'], $domain->getNameservers());
+        $this->assertSame($nameServerSet, $domain->getNameServerSet());
         $this->assertSame($contactSet, $domain->getContactSet());
         $this->assertTrue($domain->isPrivacyEnabled());
         $this->assertFalse($domain->isLocked());

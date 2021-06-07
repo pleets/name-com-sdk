@@ -7,6 +7,7 @@ use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
+use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
@@ -122,6 +123,17 @@ class NameComApi
         $this->client->prepareRequest(
             'POST',
             $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':purchasePrivacy'
+        );
+        $this->setAuthentication()->setJson($request->toArray());
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function setNameServers(SetNameServersRequest $request): PostResponse
+    {
+        $this->client->prepareRequest(
+            'POST',
+            $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':setNameservers'
         );
         $this->setAuthentication()->setJson($request->toArray());
 

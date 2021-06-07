@@ -5,6 +5,7 @@ namespace Pleets\Tests\Feature\Concerns;
 trait HasResponses
 {
     use HasContactInfo;
+    use HasNameServers;
 
     protected function responseWithDomain(string $domainName): array
     {
@@ -18,15 +19,11 @@ trait HasResponses
     protected function response(): array
     {
         $info = $this->generateContactInfo();
+        $nameservers = $this->generateNameServerSet();
 
         return [
             'domainName' => 'test-domain.org',
-            'nameservers' => [
-                'ns1vwx.name.com',
-                'ns2qvz.name.com',
-                'ns3gmv.name.com',
-                'ns4hmp.name.com'
-            ],
+            'nameservers' => $nameservers->toArray(),
             'contacts' => [
                 'registrant' => $info,
                 'admin' => $info,
@@ -45,16 +42,12 @@ trait HasResponses
     protected function responseWithDomainModel(array $data = []): array
     {
         $info = $this->generateContactInfo();
+        $nameservers = $this->generateNameServerSet();
 
         $response = [
             'domain' => [
                 'domainName' => 'test-domain.org',
-                'nameservers' => [
-                    'ns1vwx.name.com',
-                    'ns2qvz.name.com',
-                    'ns3gmv.name.com',
-                    'ns4hmp.name.com'
-                ],
+                'nameservers' => $nameservers->toArray(),
                 'contacts' => [
                     'registrant' => $info,
                     'admin' => $info,
