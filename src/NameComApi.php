@@ -7,8 +7,8 @@ use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
+use Pleets\NameCom\Domains\Requests\SetContactsRequest;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
-use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
 
@@ -152,6 +152,17 @@ class NameComApi
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':unlock');
         $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function setContacts(SetContactsRequest $request): PostResponse
+    {
+        $this->client->prepareRequest(
+            'POST',
+            $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':setContacts'
+        );
+        $this->setAuthentication()->setJson($request->toArray());
 
         return new PostResponse($this->client->execute());
     }

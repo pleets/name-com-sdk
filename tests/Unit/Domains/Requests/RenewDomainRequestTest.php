@@ -47,10 +47,12 @@ class RenewDomainRequestTest extends TestCase
         $price = (string) $this->faker->randomFloat(2);
         $years = $this->faker->randomDigitNot(0);
 
-        $request = new PurchaseRequest($domainName);
+        $request = new PurchaseRequest($this->faker->domainName);
+        $request->setDomainName($domainName);
         $request->setPurchasePrice($price);
         $request->setPurchaseYears($years);
 
+        $this->assertSame($domainName, $request->getDomainName());
         $this->assertSame($price, $request->getPurchasePrice());
         $this->assertSame($years, $request->getPurchaseYears());
 
