@@ -139,4 +139,20 @@ class NameComApi
 
         return new PostResponse($this->client->execute());
     }
+
+    public function lockDomain(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':lock');
+        $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function unlockDomain(string $domain): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':unlock');
+        $this->setAuthentication();
+
+        return new PostResponse($this->client->execute());
+    }
 }
