@@ -3,12 +3,13 @@
 namespace Pleets\NameCom\Domains;
 
 use Pleets\NameCom\Domains\Concerns\HasDomainName;
+use Pleets\NameCom\Domains\Concerns\HasNameServers;
 
 class Domain
 {
     use HasDomainName;
+    use HasNameServers;
 
-    protected array $nameservers = [];
     protected ?ContactSet $contactSet = null;
     protected bool $privacyEnabled = false;
     protected bool $locked = true;
@@ -17,18 +18,6 @@ class Domain
     public function __construct(string $domainName)
     {
         $this->domainName = $domainName;
-    }
-
-    public function getNameservers(): array
-    {
-        return $this->nameservers;
-    }
-
-    public function setNameservers(array $nameservers): self
-    {
-        $this->nameservers = $nameservers;
-
-        return $this;
     }
 
     public function getContactSet(): ?ContactSet
@@ -85,8 +74,8 @@ class Domain
             'domainName' => $this->domainName
         ];
 
-        if ($this->nameservers) {
-            $data['nameservers'] = $this->nameservers;
+        if ($this->nameServerSet) {
+            $data['nameservers'] = $this->nameServerSet->toArray();
         }
 
         if ($this->contactSet) {
