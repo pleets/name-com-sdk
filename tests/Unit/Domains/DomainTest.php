@@ -36,10 +36,10 @@ class DomainTest extends TestCase
     public function itGeneratesAnArrayWithNameServers()
     {
         $domainName = $this->faker->domainName;
-        $nameServerSet = $this->generateNameServerSet();
+        $nameServerSet = $this->generateNameServerCollection();
 
         $domain = new Domain($domainName);
-        $domain->setNameServerSet($nameServerSet);
+        $domain->setNameServerCollection($nameServerSet);
 
         $this->assertSame([
             'domainName' => $domainName,
@@ -82,8 +82,8 @@ class DomainTest extends TestCase
 
         $domainName = $this->faker->domainName;
         $domain->setDomainName($domainName);
-        $nameServerSet = $this->generateNameServerSet();
-        $domain->setNameServerSet($nameServerSet);
+        $nameServerSet = $this->generateNameServerCollection();
+        $domain->setNameServerCollection($nameServerSet);
         $contactSet = $this->createContactSet(ContactType::REGISTRANT);
         $domain->setContactSet($contactSet);
         $domain->setPrivacyEnabled(true);
@@ -91,7 +91,7 @@ class DomainTest extends TestCase
         $domain->setAutoRenewed(false);
 
         $this->assertSame($domainName, $domain->getDomainName());
-        $this->assertSame($nameServerSet, $domain->getNameServerSet());
+        $this->assertSame($nameServerSet, $domain->getNameServerCollection());
         $this->assertSame($contactSet, $domain->getContactSet());
         $this->assertTrue($domain->isPrivacyEnabled());
         $this->assertFalse($domain->isLocked());

@@ -5,10 +5,13 @@ namespace Pleets\Tests\Feature\Domains;
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasDomainModelResponses;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class SetNameServersTest extends TestCaseWithMockAuthentication
 {
+    use HasDomainModelResponses;
+
     /**
      * @test
      */
@@ -16,7 +19,7 @@ class SetNameServersTest extends TestCaseWithMockAuthentication
     {
         $domainName = $this->faker->domainName;
 
-        $jsonResponse = $this->response();
+        $jsonResponse = $this->buildDomainModelResponse();
         unset($jsonResponse['nameservers']);
 
         $this->builder
@@ -46,9 +49,9 @@ class SetNameServersTest extends TestCaseWithMockAuthentication
     public function itSetsNameServers()
     {
         $domainName = $this->faker->domainName;
-        $nameServerSet = $this->generateNameServerSet();
+        $nameServerSet = $this->generateNameServerCollection();
 
-        $jsonResponse = $this->response();
+        $jsonResponse = $this->buildDomainModelResponse();
         $jsonResponse['nameservers'] = $nameServerSet->toArray();
 
         $this->builder
@@ -64,7 +67,7 @@ class SetNameServersTest extends TestCaseWithMockAuthentication
         $service->withHandler(new HttpMock($this->builder));
 
         $request = new SetNameServersRequest($domainName);
-        $request->setNameServerSet($nameServerSet);
+        $request->setNameServerCollection($nameServerSet);
         $response = $service->setNameServers($request);
 
         $this->assertTrue($response->isSuccessful());

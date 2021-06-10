@@ -74,8 +74,8 @@ class Domain
             'domainName' => $this->domainName
         ];
 
-        if ($this->nameServerSet) {
-            $data['nameservers'] = $this->nameServerSet->toArray();
+        if ($this->nameServerCollection) {
+            $data['nameservers'] = $this->nameServerCollection->toArray();
         }
 
         if ($this->contactSet) {

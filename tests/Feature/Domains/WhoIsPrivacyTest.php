@@ -4,16 +4,19 @@ namespace Pleets\Tests\Feature\Domains;
 
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasDomainModelResponses;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class WhoIsPrivacyTest extends TestCaseWithMockAuthentication
 {
+    use HasDomainModelResponses;
+
     /**
      * @test
      */
     public function itCanEnableWhoIsPrivacy()
     {
-        $jsonResponse = array_replace_recursive($this->response(), [
+        $jsonResponse = array_replace_recursive($this->buildDomainModelResponse(), [
             'privacyEnabled' => true
         ]);
 
@@ -42,7 +45,7 @@ class WhoIsPrivacyTest extends TestCaseWithMockAuthentication
      */
     public function itCanDisableWhoIsPrivacy()
     {
-        $jsonResponse = array_replace_recursive($this->response(), [
+        $jsonResponse = array_replace_recursive($this->buildDomainModelResponse(), [
             'privacyEnabled' => false
         ]);
 

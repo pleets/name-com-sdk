@@ -5,10 +5,13 @@ namespace Pleets\Tests\Feature\Domains;
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasFullDomainModelResponse;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class RenewDomainTest extends TestCaseWithMockAuthentication
 {
+    use HasFullDomainModelResponse;
+
     private function setupServiceWithResponse(array $response): NameComApi
     {
         $this->builder
@@ -32,7 +35,7 @@ class RenewDomainTest extends TestCaseWithMockAuthentication
     public function itCanRenewADomainWithMinimumData()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $service = $this->setupServiceWithResponse($jsonResponse);
         $response = $service->renewDomain(new PurchaseRequest($domainName));
@@ -49,7 +52,7 @@ class RenewDomainTest extends TestCaseWithMockAuthentication
     public function itCanRenewADomainWithAllRequestData()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $service = $this->setupServiceWithResponse($jsonResponse);
         $request = new PurchaseRequest($domainName);

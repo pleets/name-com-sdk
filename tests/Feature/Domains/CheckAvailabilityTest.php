@@ -3,26 +3,29 @@
 namespace Pleets\Tests\Feature\Domains;
 
 use EasyHttp\MockBuilder\HttpMock;
+use Pleets\NameCom\Domains\DomainCollection;
+use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\NameComApi;
-use Pleets\Tests\Feature\Concerns\HasFullDomainModelResponse;
+use Pleets\Tests\Feature\Concerns\HasSearchResultResponse;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
-class GetDomainTest extends TestCaseWithMockAuthentication
+class CheckAvailabilityTest extends TestCaseWithMockAuthentication
 {
-    use HasFullDomainModelResponse;
+    use HasSearchResultResponse;
 
     /**
      * @test
      */
-    public function itCanGetDomainDetails()
+    public function itCanCheckAvailability()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
+        $domainName2 = $this->faker->domainName;
+        $jsonResponse = $this->buildSearchResultResponse($domainName, $domainName2);
 
         $this->builder
             ->when()
-                ->methodIs('GET')
-                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . '/')
+                ->methodIs('POST')
+                ->pathMatch('/v4\/domains:checkAvailability/')
             ->then()
                 ->statusCode(200)
                 ->json($jsonResponse);
@@ -31,11 +34,13 @@ class GetDomainTest extends TestCaseWithMockAuthentication
         $service->setCredentials($this->username, $this->password);
         $service->withHandler(new HttpMock($this->builder));
 
-        $response = $service->getDomain($domainName);
+        $domainCollection = new DomainCollection();
+        $domainCollection->add($domainName);
+        $request = new CheckAvailabilityRequest($domainCollection);
+        $response = $service->checkAvailability($request);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
-        $this->assertSame($domainName, $jsonResponse['domain']['domainName']);
     }
 }

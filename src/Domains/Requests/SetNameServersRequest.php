@@ -17,8 +17,8 @@ class SetNameServersRequest
 
     public function toArray(): array
     {
-        if ($this->nameServerSet) {
-            return $this->nameServerSet->toArray();
+        if ($this->nameServerCollection) {
+            return $this->nameServerCollection->toArray();
         }
 
         return [];
