@@ -5,13 +5,11 @@ namespace Pleets\NameCom;
 use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
-use Pleets\NameCom\Domains\DomainCollection;
 use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\Domains\Requests\SetContactsRequest;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
-use Pleets\NameCom\Responses\AbstractResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
 
