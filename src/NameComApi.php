@@ -8,6 +8,7 @@ use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
+use Pleets\NameCom\Domains\Requests\SearchRequest;
 use Pleets\NameCom\Domains\Requests\SetContactsRequest;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\NameCom\Responses\GetResponse;
@@ -171,6 +172,14 @@ class NameComApi
     public function checkAvailability(CheckAvailabilityRequest $request): PostResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:checkAvailability');
+        $this->setAuthentication()->setJson($request->toArray());
+
+        return new PostResponse($this->client->execute());
+    }
+
+    public function search(SearchRequest $request): PostResponse
+    {
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:search');
         $this->setAuthentication()->setJson($request->toArray());
 
         return new PostResponse($this->client->execute());
