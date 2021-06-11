@@ -2,20 +2,20 @@
 
 namespace Pleets\NameCom\Domains\Concerns;
 
-use Pleets\NameCom\Domains\NameServerSet;
+use Pleets\NameCom\Domains\NameServerCollection;
 
 trait HasNameServers
 {
-    protected ?NameServerSet $nameServerSet = null;
+    protected ?NameServerCollection $nameServerCollection = null;
 
-    public function getNameServerSet(): NameServerSet
+    public function getNameServerCollection(): NameServerCollection
     {
-        return $this->nameServerSet;
+        return $this->nameServerCollection;
     }
 
-    public function setNameServerSet(NameServerSet $nameServerSet): self
+    public function setNameServerCollection(NameServerCollection $nameServerSet): self
     {
-        $this->nameServerSet = $nameServerSet;
+        $this->nameServerCollection = $nameServerSet;
 
         return $this;
     }

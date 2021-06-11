@@ -2,7 +2,7 @@
 
 namespace Pleets\Tests\Unit\Domains\Requests;
 
-use Pleets\NameCom\Domains\NameServerSet;
+use Pleets\NameCom\Domains\NameServerCollection;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
 use Pleets\Tests\TestCase;
 
@@ -28,11 +28,12 @@ class SetNameServersRequestsTest extends TestCase
         $domainName = $this->faker->domainName;
         $ns1 = 'ns1.' . $this->faker->domainName;
         $ns2 = 'ns2.' . $this->faker->domainName;
-        $nameservers = new NameServerSet();
-        $nameservers->addNameServer($ns1)->addNameServer($ns2);
+        $nameservers = new NameServerCollection();
+        $nameservers->add($ns1);
+        $nameservers->add($ns2);
 
         $request = new SetNameServersRequest($domainName);
-        $request->setNameServerSet($nameservers);
+        $request->setNameServerCollection($nameservers);
 
         $this->assertSame([
             $ns1,

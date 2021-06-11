@@ -6,13 +6,13 @@ use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Constants\ContactType;
 use Pleets\NameCom\Domains\Requests\SetContactsRequest;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasDomainModelResponses;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class SetContactsTest extends TestCaseWithMockAuthentication
 {
-    /**
-     * @test
-     */
+    use HasDomainModelResponses;
+
     /**
      * @test
      */
@@ -21,7 +21,7 @@ class SetContactsTest extends TestCaseWithMockAuthentication
         $domainName = $this->faker->domainName;
         $contactSet = $this->createContactSet(ContactType::ADMIN);
 
-        $jsonResponse = $this->response();
+        $jsonResponse = $this->buildDomainModelResponse();
         $jsonResponse['contacts'] = $contactSet->toArray();
 
         $this->builder

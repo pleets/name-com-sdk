@@ -6,17 +6,20 @@ use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Domain;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasFullDomainModelResponse;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class CreateDomainTest extends TestCaseWithMockAuthentication
 {
+    use HasFullDomainModelResponse;
+
     /**
      * @test
      */
     public function itCanCreateADomainWithMinimumData()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $this->builder
             ->when()
@@ -46,7 +49,7 @@ class CreateDomainTest extends TestCaseWithMockAuthentication
     public function itCanCreateADomainWithPurchasePrice()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $this->builder
             ->when()

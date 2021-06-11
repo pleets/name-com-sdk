@@ -5,10 +5,13 @@ namespace Pleets\Tests\Feature\Domains;
 use EasyHttp\MockBuilder\HttpMock;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\NameComApi;
+use Pleets\Tests\Feature\Concerns\HasFullDomainModelResponse;
 use Pleets\Tests\TestCaseWithMockAuthentication;
 
 class PurchasePrivacyTest extends TestCaseWithMockAuthentication
 {
+    use HasFullDomainModelResponse;
+
     private function setupServiceWithResponse(array $response): NameComApi
     {
         $this->builder
@@ -32,7 +35,7 @@ class PurchasePrivacyTest extends TestCaseWithMockAuthentication
     public function itCanPurchaseDomainPrivacyWithMinimumData()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $service = $this->setupServiceWithResponse($jsonResponse);
         $response = $service->purchasePrivacy(new PurchaseRequest($domainName));
@@ -49,7 +52,7 @@ class PurchasePrivacyTest extends TestCaseWithMockAuthentication
     public function itCanPurchaseDomainPrivacyWithAllRequestData()
     {
         $domainName = $this->faker->domainName;
-        $jsonResponse = $this->responseWithDomain($domainName);
+        $jsonResponse = $this->buildFullDomainModelResponseByDomain($domainName);
 
         $service = $this->setupServiceWithResponse($jsonResponse);
         $request = new PurchaseRequest($domainName);

@@ -2,47 +2,24 @@
 
 namespace Pleets\Tests\Feature\Concerns;
 
-trait HasResponses
+trait HasFullDomainModelResponse
 {
     use HasContactInfo;
     use HasNameServers;
 
-    protected function responseWithDomain(string $domainName): array
+    protected function buildFullDomainModelResponseByDomain(string $domainName): array
     {
-        return $this->responseWithDomainModel([
+        return $this->buildFullDomainModelResponse([
             'domain' => [
                 'domainName' => $domainName
             ]
         ]);
     }
 
-    protected function response(): array
+    protected function buildFullDomainModelResponse(array $data = []): array
     {
         $info = $this->generateContactInfo();
-        $nameservers = $this->generateNameServerSet();
-
-        return [
-            'domainName' => 'test-domain.org',
-            'nameservers' => $nameservers->toArray(),
-            'contacts' => [
-                'registrant' => $info,
-                'admin' => $info,
-                'tech' => $info,
-                'billing' => $info,
-            ],
-            'privacyEnabled' => true,
-            'locked' => true,
-            'autorenewEnabled' => true,
-            'expireDate' => '2022-05-30T07:00:11Z',
-            'createDate' => '2021-05-30T07:00:11Z',
-            'renewalPrice' => 12.99
-        ];
-    }
-
-    protected function responseWithDomainModel(array $data = []): array
-    {
-        $info = $this->generateContactInfo();
-        $nameservers = $this->generateNameServerSet();
+        $nameservers = $this->generateNameServerCollection();
 
         $response = [
             'domain' => [

@@ -5,6 +5,7 @@ namespace Pleets\NameCom;
 use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
+use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\Domains\Requests\SetContactsRequest;
@@ -140,6 +141,17 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
+    public function setContacts(SetContactsRequest $request): PostResponse
+    {
+        $this->client->prepareRequest(
+            'POST',
+            $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':setContacts'
+        );
+        $this->setAuthentication()->setJson($request->toArray());
+
+        return new PostResponse($this->client->execute());
+    }
+
     public function lockDomain(string $domain): PostResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':lock');
@@ -156,12 +168,9 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function setContacts(SetContactsRequest $request): PostResponse
+    public function checkAvailability(CheckAvailabilityRequest $request): PostResponse
     {
-        $this->client->prepareRequest(
-            'POST',
-            $this->baseUri . '/v4/domains/' . $request->getDomainName() . ':setContacts'
-        );
+        $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:checkAvailability');
         $this->setAuthentication()->setJson($request->toArray());
 
         return new PostResponse($this->client->execute());
