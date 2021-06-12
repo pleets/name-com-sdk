@@ -33,7 +33,7 @@ class SearchTest extends TestCaseWithMockAuthentication
     /**
      * @test
      */
-    public function itCanCheckAvailability()
+    public function itCanSearchForDomains()
     {
         $domainName = $this->faker->domainName;
         $jsonResponse = $this->buildSearchResultResponse($domainName);
@@ -50,7 +50,7 @@ class SearchTest extends TestCaseWithMockAuthentication
     /**
      * @test
      */
-    public function itCanCheckAvailabilityWithTldFilter()
+    public function itCanSearchForDomainsWithTldFilter()
     {
         $domainName = $this->faker->domainName;
         $jsonResponse = $this->buildSearchResultResponse($domainName);
