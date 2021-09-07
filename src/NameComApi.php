@@ -11,6 +11,7 @@ use Pleets\NameCom\Domains\Requests\PurchaseRequest;
 use Pleets\NameCom\Domains\Requests\SearchRequest;
 use Pleets\NameCom\Domains\Requests\SetContactsRequest;
 use Pleets\NameCom\Domains\Requests\SetNameServersRequest;
+use Pleets\NameCom\Domains\Responses\SearchResultResponse;
 use Pleets\NameCom\Responses\GetResponse;
 use Pleets\NameCom\Responses\PostResponse;
 
@@ -177,11 +178,11 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function search(SearchRequest $request): PostResponse
+    public function search(SearchRequest $request): SearchResultResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:search');
         $this->setAuthentication()->setJson($request->toArray());
 
-        return new PostResponse($this->client->execute());
+        return new SearchResultResponse($this->client->execute());
     }
 }
