@@ -5,6 +5,7 @@ namespace Pleets\NameCom;
 use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
+use Pleets\NameCom\Contracts\NameComResponse;
 use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
@@ -46,7 +47,7 @@ class NameComApi
             ->setHeader('Authorization', 'Basic ' . base64_encode($this->username . ':' . $this->password));
     }
 
-    public function getDomain(string $domain): GetResponse
+    public function getDomain(string $domain): NameComResponse
     {
         $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains/' . $domain);
         $this->setAuthentication();
@@ -54,7 +55,7 @@ class NameComApi
         return new GetResponse($this->client->execute());
     }
 
-    public function listDomains(): GetResponse
+    public function listDomains(): NameComResponse
     {
         $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains');
         $this->setAuthentication();
@@ -62,7 +63,7 @@ class NameComApi
         return new GetResponse($this->client->execute());
     }
 
-    public function createDomain(CreateDomainRequest $request): PostResponse
+    public function createDomain(CreateDomainRequest $request): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains');
         $this->setAuthentication()->setJson($request->toArray());
@@ -70,7 +71,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function enableWhoIsPrivacy(string $domain): PostResponse
+    public function enableWhoIsPrivacy(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':enableWhoisPrivacy');
         $this->setAuthentication();
@@ -78,7 +79,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function disableWhoIsPrivacy(string $domain): PostResponse
+    public function disableWhoIsPrivacy(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':disableWhoisPrivacy');
         $this->setAuthentication();
@@ -86,7 +87,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function enableAutoRenewal(string $domain): PostResponse
+    public function enableAutoRenewal(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':enableAutorenew');
         $this->setAuthentication();
@@ -94,7 +95,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function disableAutoRenewal(string $domain): PostResponse
+    public function disableAutoRenewal(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':disableAutorenew');
         $this->setAuthentication();
@@ -102,7 +103,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function renewDomain(PurchaseRequest $request): PostResponse
+    public function renewDomain(PurchaseRequest $request): NameComResponse
     {
         $this->client->prepareRequest(
             'POST',
@@ -113,7 +114,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function getDomainAuthCode(string $domain): GetResponse
+    public function getDomainAuthCode(string $domain): NameComResponse
     {
         $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains/' . $domain . ':getAuthCode');
         $this->setAuthentication();
@@ -121,7 +122,7 @@ class NameComApi
         return new GetResponse($this->client->execute());
     }
 
-    public function purchasePrivacy(PurchaseRequest $request): PostResponse
+    public function purchasePrivacy(PurchaseRequest $request): NameComResponse
     {
         $this->client->prepareRequest(
             'POST',
@@ -132,7 +133,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function setNameServers(SetNameServersRequest $request): PostResponse
+    public function setNameServers(SetNameServersRequest $request): NameComResponse
     {
         $this->client->prepareRequest(
             'POST',
@@ -143,7 +144,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function setContacts(SetContactsRequest $request): PostResponse
+    public function setContacts(SetContactsRequest $request): NameComResponse
     {
         $this->client->prepareRequest(
             'POST',
@@ -154,7 +155,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function lockDomain(string $domain): PostResponse
+    public function lockDomain(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':lock');
         $this->setAuthentication();
@@ -162,7 +163,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function unlockDomain(string $domain): PostResponse
+    public function unlockDomain(string $domain): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains/' . $domain . ':unlock');
         $this->setAuthentication();
@@ -170,7 +171,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function checkAvailability(CheckAvailabilityRequest $request): PostResponse
+    public function checkAvailability(CheckAvailabilityRequest $request): NameComResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:checkAvailability');
         $this->setAuthentication()->setJson($request->toArray());
