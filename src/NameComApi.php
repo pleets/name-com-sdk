@@ -6,6 +6,7 @@ use EasyHttp\GuzzleLayer\GuzzleClient;
 use EasyHttp\LayerContracts\Contracts\EasyClientContract;
 use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
 use Pleets\NameCom\Contracts\NameComResponse;
+use Pleets\NameCom\Contracts\NameComResultsResponse;
 use Pleets\NameCom\Domains\Requests\CheckAvailabilityRequest;
 use Pleets\NameCom\Domains\Requests\CreateDomainRequest;
 use Pleets\NameCom\Domains\Requests\PurchaseRequest;
@@ -179,7 +180,7 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
-    public function search(SearchRequest $request): SearchResultResponse
+    public function search(SearchRequest $request): NameComResultsResponse
     {
         $this->client->prepareRequest('POST', $this->baseUri . '/v4/domains:search');
         $this->setAuthentication()->setJson($request->toArray());
