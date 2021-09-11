@@ -11,9 +11,11 @@ class SearchResultResponse extends PostResponse implements NameComResultsRespons
 {
     public function results(): Collection
     {
+        $json = $this->toArray();
+
         $collection = new Collection();
 
-        foreach ($this->toArray() as $result) {
+        foreach ($json['results'] as $result) {
             $collection->push(new SearchResult($result));
         }
 

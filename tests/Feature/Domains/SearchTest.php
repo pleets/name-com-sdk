@@ -53,8 +53,10 @@ class SearchTest extends TestCaseWithMockAuthentication
             'renewalPrice' => 12.99
         ];
         $jsonResponse = [
-            $result1,
-            $result2,
+            'results' => [
+                $result1,
+                $result2,
+            ]
         ];
 
         $service = $this->setupServiceWithResponse($jsonResponse);
@@ -85,7 +87,9 @@ class SearchTest extends TestCaseWithMockAuthentication
             'renewalPrice' => 12.99
         ];
         $jsonResponse = [
-            $result,
+            'results' => [
+                $result,
+            ]
         ];
 
         $service = $this->setupServiceWithResponse($jsonResponse);
