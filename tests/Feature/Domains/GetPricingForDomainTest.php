@@ -24,13 +24,7 @@ class GetPricingForDomainTest extends TestCaseWithMockAuthentication
             'transferPrice' => 9.99,
         ];
 
-        $this->builder
-            ->when()
-                ->methodIs('GET')
-                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':getPricing/')
-            ->then()
-                ->statusCode(200)
-                ->json($jsonResponse);
+        $this->setMockBuilderForPricing($jsonResponse);
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -56,13 +50,7 @@ class GetPricingForDomainTest extends TestCaseWithMockAuthentication
             'transferPrice' => 9.99,
         ];
 
-        $this->builder
-            ->when()
-                ->methodIs('GET')
-                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':getPricing/')
-            ->then()
-                ->statusCode(200)
-                ->json($jsonResponse);
+        $this->setMockBuilderForPricing($jsonResponse);
 
         $service = new NameComApi($this->baseUri);
         $service->setCredentials($this->username, $this->password);
@@ -73,5 +61,16 @@ class GetPricingForDomainTest extends TestCaseWithMockAuthentication
         $this->assertTrue($response->isSuccessful());
         $this->assertSame(200, $response->getResponse()->getStatusCode());
         $this->assertSame($jsonResponse, $response->toArray());
+    }
+
+    private function setMockBuilderForPricing(array $jsonResponse): void
+    {
+        $this->builder
+            ->when()
+                ->methodIs('GET')
+                ->pathMatch('/v4\/domains\/' . self::DOMAIN_REGEX . ':getPricing/')
+            ->then()
+                ->statusCode(200)
+                ->json($jsonResponse);
     }
 }
