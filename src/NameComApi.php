@@ -112,6 +112,20 @@ class NameComApi
         return new PostResponse($this->client->execute());
     }
 
+    public function getPricingForDomain(string $domain, ?int $years = null): GetResponse
+    {
+        $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains/' . $domain . ':getPricing');
+        $this->setAuthentication();
+
+        if ($years) {
+            $this->client->getRequest()->setQuery(['years' => $years]);
+        }
+
+        $this->client->getRequest()->setQuery(['years' => $years]);
+
+        return new GetResponse($this->client->execute());
+    }
+
     public function getDomainAuthCode(string $domain): GetResponse
     {
         $this->client->prepareRequest('GET', $this->baseUri . '/v4/domains/' . $domain . ':getAuthCode');
